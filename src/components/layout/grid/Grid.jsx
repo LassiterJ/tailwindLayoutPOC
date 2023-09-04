@@ -1,42 +1,29 @@
 import React from 'react';
 
-const generateGridClasses = ({
-                               inline,
-                               columns,
-                               rows,
-                               gap,
-                               rowGap,
-                               columnGap,
-                               alignItems,
-                               justifyItems,
-                               autoRows,
-                               minWidth,
-                               maxWidth,
-                               minHeight,
-                               maxHeight,
-                               autoFlow
-                             }) => {
-  const classes = [];
-  
-  if (inline) classes.push('inline-grid');
-  else classes.push('grid');
-  
-  if (columns) classes.push(`grid-cols-${columns}`);
-  if (rows) classes.push(`grid-rows-${rows}`);
-  if (gap) classes.push(`gap-${gap}`);
-  if (rowGap) classes.push(`row-gap-${rowGap}`);
-  if (columnGap) classes.push(`col-gap-${columnGap}`);
-  if (alignItems) classes.push(`place-items-${alignItems}`);
-  if (justifyItems) classes.push(`place-items-${justifyItems}`);
-  if (autoRows) classes.push(`grid-auto-rows-${autoRows}`);
-  if (minWidth) classes.push(`min-w-${minWidth}`);
-  if (maxWidth) classes.push(`max-w-${maxWidth}`);
-  if (minHeight) classes.push(`min-h-${minHeight}`);
-  if (maxHeight) classes.push(`max-h-${maxHeight}`);
-  if (autoFlow) classes.push(`grid-auto-flow-${autoFlow}`);
-  
-  return classes.join(' ');
+const classConfig = {
+  inline: value => (value ? 'inline-grid' : 'grid'),
+  columns: value => `grid-cols-${value}`,
+  rows: value => `grid-rows-${value}`,
+  gap: value => `gap-${value}`,
+  rowGap: value => `row-gap-${value}`,
+  columnGap: value => `col-gap-${value}`,
+  alignItems: value => `place-items-${value}`,
+  justifyItems: value => `place-items-${value}`,
+  autoRows: value => `grid-auto-rows-${value}`,
+  minWidth: value => `min-w-${value}`,
+  maxWidth: value => `max-w-${value}`,
+  minHeight: value => `min-h-${value}`,
+  maxHeight: value => `max-h-${value}`,
+  autoFlow: value => `grid-auto-flow-${value}`
 };
+
+const generateGridClasses = (config) => {
+  return Object.entries(config)
+    .filter(([key, value]) => value && classConfig[key])
+    .map(([key, value]) => classConfig[key](value))
+    .join(' ');
+};
+
 
 const Grid = ({
                 children,
